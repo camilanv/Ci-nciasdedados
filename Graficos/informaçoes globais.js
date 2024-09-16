@@ -10,9 +10,6 @@ const url = 'https://raw.githubusercontent.com/guilhermeonrails/api/main/dados-g
 "total_pessoas_mundo": 7.888e9
 
 }
-
-<script type="module" src="graficos/informacoesGlobais.js"></script>
-
 const url = 'https://raw.githubusercontent.com/guilhermeonrails/api/main/dados-globais.json'
 
 async function visualizarInformacoesGlobais() {
