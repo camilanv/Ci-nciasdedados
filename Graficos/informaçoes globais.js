@@ -1,29 +1,20 @@
-@@ -1,3 +1,5 @@
-import { getCSS } from "./common.js"
-async function quantidadeUsuariosPorRede() {
-    const url = 'https://raw.githubusercontent.com/guilhermeonrails/api/main/numero-usuarios.json'
-    const res = await fetch(url)
-@@ -9,14 +11,23 @@ async function quantidadeUsuariosPorRede() {
-        {
-            x: nomeDasRedes, 
-            y: quantidadeDeUsuarios, 
-            type: 'bar'
-            type: 'bar',
-            marker: {
-                color: getCSS('--primary-color')
-            }
-        }
-    ]
+const url = 'https://raw.githubusercontent.com/guilhermeonrails/api/main/dados-globais.json'
 
-    const laytout = {
-        plot_bgcolor: getCSS('--bg-color'),
-        paper_bgcolor: getCSS('--bg-color')
-    }
-    const grafico = document.createElement('div')
-    grafico.className = 'grafico'
-    document.getElementById('graficos-container').appendChild(grafico)
-    Plotly.newPlot(grafico, data)
-    Plotly.newPlot(grafico, data, laytout)
+async function vizualizarInformacoesGlobais() {
+    const res = await fetch(url)
+    const dados = await res.json()
+    const pessoasConectadas = (dados.total_pessoas_conectadas / 1e9)
+    const pessoasNoMundo = (dados.total_pessoas_mundo / 1e9)
+    const horas = parseInt(dados.tempo_medio)
+    const minutos = Math.round((dados.tempo_medio - horas) * 100)
+    const porcentagemConectada = ((pessoasConectadas / pessoasNoMundo ) * 100).toFixed(2)
+
+    const paragrafo = document.createElement('p')
+    paragrafo.classList.add('graficos-container__texto')
+    paragrafo.innerHTML = `Você sabia que o mundo tem <span>${pessoasNoMundo} bilhões</span> de pessoas e que aproximadamente <span>${pessoasConectadas} bilhões</span> estão conectadas em alguma rede social e passam em média <span>${horas} horas</span> e <span>${minutos} minutos</span> conectadas.<br>Isso significa que aproximadamente <span>${porcentagemConectada}%</span> de pessoas estão conectadas em alguma rede social.`
+
+    const container = document.getElementById('graficos-container')
+    container.appendChild(paragrafo)
 }
 
-quantidadeUsuariosPorRede()
+vizualizarInformacoesGlobais()
